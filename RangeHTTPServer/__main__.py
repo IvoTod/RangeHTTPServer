@@ -1,4 +1,8 @@
 #!/usr/bin/python
+
+import os
+from functools import partial
+
 '''
 Use this in the same way as Python's SimpleHTTPServer:
 
@@ -22,9 +26,22 @@ from . import RangeRequestHandler
 
 import argparse
 parser = argparse.ArgumentParser()
+parser.add_argument('--bind', '-b', default='', metavar='ADDRESS',
+                    help='Specify alternate bind address '
+                         '[default: all interfaces]')
+parser.add_argument('--directory', '-d', default=os.getcwd(),
+                    help='Specify alternative directory '
+                    '[default:current directory]')
 parser.add_argument('port', action='store',
                     default=8000, type=int,
                     nargs='?', help='Specify alternate port [default: 8000]')
 
 args = parser.parse_args()
-SimpleHTTPServer.test(HandlerClass=RangeRequestHandler, port=args.port)
+
+handler_class = partial(RangeRequestHandler, directory=args.directory)
+
+SimpleHTTPServer.test(
+    HandlerClass=handler_class,
+    port=args.port,
+    bind=args.bind
+)
