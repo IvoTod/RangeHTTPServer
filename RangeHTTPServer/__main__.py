@@ -26,9 +26,9 @@ from . import RangeRequestHandler
 
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('--bind', '-b', default='', metavar='ADDRESS',
+parser.add_argument('--bind', '-b', default='localhost', metavar='ADDRESS',
                     help='Specify alternate bind address '
-                         '[default: all interfaces]')
+                         '[default: localhost]')
 parser.add_argument('--directory', '-d', default=os.getcwd(),
                     help='Specify alternative directory '
                     '[default:current directory]')
